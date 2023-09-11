@@ -8,6 +8,8 @@ class MyApp(object):
 	def __init__(self, arg):
 		self.root = root
 		self.root.title("Weather API")
+		self.root.minsize(400, 230)
+		self.root.maxsize(400, 230)
 
 		# Create a style object
 		style = ttk.Style()
@@ -17,6 +19,7 @@ class MyApp(object):
 		# set a fixed window size 
 		self.root.geometry("400x230")
 
+
 		# create frames for the widgets
 		self.frame01 = ttk.Frame(root)
 		self.frame01.grid(row=0, column=0, sticky='w', pady=(10, 0))
@@ -25,7 +28,7 @@ class MyApp(object):
 		self.frame02.grid(row=1, column=0, padx=30, pady=(20, 0))
 
 		self.frame03 = ttk.Frame(root)
-		self.frame03.grid(row=2, column=0, padx=(30, 0),pady=(20, 0), sticky='w')
+		self.frame03.grid(row=2, column=0, padx=(30, 0),pady=(30, 0), sticky='w')
 
 		# create labels for the entry and output windows
 		self.entry_label = ttk.Label(self.frame01, text='Enter Location Name')
@@ -48,6 +51,11 @@ class MyApp(object):
 		self.parse_button = ttk.Button(self.frame02, text='Parse', width=7)
 		self.parse_button.grid(row=0, column=0, padx=(50, 0), sticky='s')
 
+		# more buttons
+		self.output_button = ttk.Button(self.frame03, text='Output Data', padding=(25,10))
+		self.output_button.grid(row=0, column=0)
+		self.reset_button = ttk.Button(self.frame03, text='Reset', padding=(30,10))
+		self.reset_button.grid(row=0, column=1, padx=(70, 0))
 
 if __name__ == '__main__':
 	root = tk.Tk()
