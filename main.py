@@ -5,6 +5,7 @@ from tkinter import ttk
 from tkinter import font as tkFont
 
 class MyApp(object):
+    
 	def __init__(self, arg):
 		self.root = root
 		self.root.title("Weather API")
@@ -28,7 +29,7 @@ class MyApp(object):
 		self.frame02.grid(row=1, column=0, padx=30, pady=(20, 0))
 
 		self.frame03 = ttk.Frame(root)
-		self.frame03.grid(row=2, column=0, padx=(30, 0),pady=(30, 0), sticky='w')
+		self.frame03.grid(row=2, column=0, padx=(30, 0),pady=(20, 0), sticky='w')
 
 		# create labels for the entry and output windows
 		self.entry_label = ttk.Label(self.frame01, text='Enter Location Name')
@@ -39,14 +40,14 @@ class MyApp(object):
 
 		# create an entry for the location input
 		self.entry_location = ttk.Entry(self.frame02)
-		self.entry_location.grid(row=0, column=0, padx=(0, 20), sticky='n', pady=(0, 50))
+		self.entry_location.grid(row=0, column=0, padx=(0, 20), sticky='n', pady=(0, 10))
 
 		# create the output display window
-		self.output_display = tk.Text(self.frame02, height=5, width=23)
+		self.output_display = tk.Text(self.frame02, height=8, width=35, font=('Arial', 7))
 		self.output_display.grid(row=0, column=1, padx=(10, 0))
 
   		# some buttons
-		self.fetch_button = ttk.Button(self.frame02, text='Fetch',width=7)
+		self.fetch_button = ttk.Button(self.frame02, text='Fetch',width=7, command=self.getLocationName)
 		self.fetch_button.grid(row=0, column=0, sticky='sw')
 		self.parse_button = ttk.Button(self.frame02, text='Parse', width=7)
 		self.parse_button.grid(row=0, column=0, padx=(50, 0), sticky='s')
@@ -54,9 +55,20 @@ class MyApp(object):
 		# more buttons
 		self.output_button = ttk.Button(self.frame03, text='Output Data', padding=(25,10))
 		self.output_button.grid(row=0, column=0)
-		self.reset_button = ttk.Button(self.frame03, text='Reset', padding=(30,10))
-		self.reset_button.grid(row=0, column=1, padx=(70, 0))
+		self.reset_button = ttk.Button(self.frame03, text='Reset', padding=(30,10), command=self.resetFunction)
+		self.reset_button.grid(row=0, column=1, padx=(50, 0))
 
+	def getLocationName(self):
+		location = self.entry_location.get()
+		self.entry_location.delete(0, 'end')
+		self.output_display.insert('1.0', 'Data collected successfully')
+  
+		return location
+	def resetFunction(self):
+		self.entry_location.delete(0, 'end')
+		self.output_display.delete('1.0', tk.END)
+
+	
 if __name__ == '__main__':
 	root = tk.Tk()
 	app = MyApp(root)
