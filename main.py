@@ -49,6 +49,15 @@ class MyApp(object):
   		# output field
 		self.output_field = tk.Text(self.frame02, font=('Verdana', 7), width=35, height=12)
 		self.output_field.grid(row=0, column=0)
+  
+		# output data button
+		self.output_data_button = ttk.Button(self.frame03, text='Output Data')
+		self.output_data_button.grid(row=0, column=0)
+  
+  		# reset button
+		self.reset_button = ttk.Button(self.frame03, text='')
+		self.reset_button.grid(row=0, column=1)
+  
 		
   
 if __name__ == '__main__':
