@@ -9,8 +9,8 @@ class MyApp(object):
 	def __init__(self, arg):
 		self.root = root
 		self.root.title("Weather API")
-		self.root.minsize(400, 230)
-		self.root.maxsize(400, 230)
+		self.root.minsize(500, 250)
+		self.root.maxsize(500, 250)
 
 		# Create a style object
 		style = ttk.Style()
@@ -18,57 +18,39 @@ class MyApp(object):
 		style.configure("TButton", font=("Arial", 10))  # Change "Arial" and 10 to your desired font family and size
 
 		# set a fixed window size 
-		self.root.geometry("400x230")
+		self.root.geometry("500x250")
 
+		# create the frames
+		self.frame01 = tk.Frame(self.root)
+		self.frame02 = tk.Frame(self.root)
+		self.frame03 = tk.Frame(self.root)
 
-		# create frames for the widgets
-		self.frame01 = ttk.Frame(root)
-		self.frame01.grid(row=0, column=0, sticky='w', pady=(10, 0))
+		# grid the frames
+		self.frame01.grid(row=0, column=0, padx=(20, 10), pady=20, sticky='n')
+		self.frame02.grid(row=0, column=1, padx=(0, 20), pady=20, sticky='n')
+		self.frame03.grid(row=1, column=0, padx=20, sticky='w', columnspan=2)
 
-		self.frame02 = ttk.Frame(root)
-		self.frame02.grid(row=1, column=0, padx=30, pady=(20, 0))
-
-		self.frame03 = ttk.Frame(root)
-		self.frame03.grid(row=2, column=0, padx=(30, 0),pady=(20, 0), sticky='w')
-
-		# create labels for the entry and output windows
-		self.entry_label = ttk.Label(self.frame01, text='Enter Location Name')
-		self.entry_label.grid(row=0, column=0, padx=(30, 40))
-
-		self.output_label = ttk.Label(self.frame01, text='Output')
-		self.output_label.grid(row=0, column=1)
-
-		# create an entry for the location input
-		self.entry_location = ttk.Entry(self.frame02)
-		self.entry_location.grid(row=0, column=0, padx=(0, 20), sticky='n', pady=(0, 10))
-
-		# create the output display window
-		self.output_display = tk.Text(self.frame02, height=8, width=35, font=('Arial', 7))
-		self.output_display.grid(row=0, column=1, padx=(10, 0))
-
-  		# some buttons
-		self.fetch_button = ttk.Button(self.frame02, text='Fetch',width=7, command=self.getLocationName)
-		self.fetch_button.grid(row=0, column=0, sticky='sw')
-		self.parse_button = ttk.Button(self.frame02, text='Parse', width=7)
-		self.parse_button.grid(row=0, column=0, padx=(50, 0), sticky='s')
-
-		# more buttons
-		self.output_button = ttk.Button(self.frame03, text='Output Data', padding=(25,10))
-		self.output_button.grid(row=0, column=0)
-		self.reset_button = ttk.Button(self.frame03, text='Reset', padding=(30,10), command=self.resetFunction)
-		self.reset_button.grid(row=0, column=1, padx=(50, 0))
-
-	def getLocationName(self):
-		location = self.entry_location.get()
-		self.entry_location.delete(0, 'end')
-		self.output_display.insert('1.0', 'Data collected successfully')
+		# label text
+		self.label_text = tk.Label(self.frame01, text='Enter location name')
+		self.label_text.grid(row=0, column=0, sticky='w')
   
-		return location
-	def resetFunction(self):
-		self.entry_location.delete(0, 'end')
-		self.output_display.delete('1.0', tk.END)
+		# entry field
+		self.entry_field = ttk.Entry(self.frame01, width=30)
+		self.entry_field.grid(row=1, column=0, pady=(10, 20), sticky='w', columnspan=2)
 
-	
+		# fetch data button
+		self.fetch_data = ttk.Button(self.frame01, text='Fetch')
+		self.fetch_data.grid(row=2, column=0, sticky='w')
+  
+		# reset button
+		self.parse_button = ttk.Button(self.frame01, text='Parse')
+		self.parse_button.grid(row=2, column=1, padx=(0,0))
+  
+  		# output field
+		self.output_field = tk.Text(self.frame02, font=('Verdana', 7), width=35, height=12)
+		self.output_field.grid(row=0, column=0)
+		
+  
 if __name__ == '__main__':
 	root = tk.Tk()
 	app = MyApp(root)
