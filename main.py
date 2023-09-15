@@ -55,12 +55,18 @@ class MyApp(object):
 		self.output_data_button.grid(row=0, column=0)
   
   		# reset button
-		self.reset_button = ttk.Button(self.frame03, text='Reset', padding=10, width=37)
+		self.reset_button = ttk.Button(self.frame03, text='Reset', padding=10, width=37, command=self.resetCommand)
 		self.reset_button.grid(row=0, column=1, padx=(30, 0))
-  
-		
-  
+
+		###################################################
+		# functionality 
+	def resetCommand(self):
+		self.entry_field.delete(0, tk.END)
+		self.output_field.delete('1.0', tk.END)
+	
+
 if __name__ == '__main__':
 	root = tk.Tk()
 	app = MyApp(root)
 	root.mainloop()
+
