@@ -85,7 +85,12 @@ class MyApp(object):
         if self.entry_field.get() != '':
             self.response = requests.get(base_url, params=parameters)
             self.entry_field.delete(0, tk.END)
-            self.output_field.insert(tk.END, "Location updated to entry...\n" )
+            if self.response.status_code != 200:
+                self.output_field.insert(tk.END, "No data for such location, please counter check...\n" )
+            elif self.response.status_code == 200:
+                self.entry_field.delete(0, tk.END)
+                self.output_field.insert(tk.END, 'Data has been collected Succesfully...\nParse the data please.\n')
+                
         else:
             self.output_field.insert(tk.END, 'Could not fetch data, check input\n')
    
@@ -94,9 +99,14 @@ class MyApp(object):
             if self.response.status_code == 200:
                 weather_data = self.response.json()
                 # Extract the data
-                print(weather_data['main']['temp'])
+                
                 if 'main' in weather_data:
-                    self.output_field.insert(tk.END, "Temperature:"  + str(weather_data['main']['temp']) + " Celcius \n")
+                    self.temp = weather_data['main']['temp']
+                    self.output_field.insert(tk.END, 'Data has been parsed succesfully...\n')
+                    print("Data")
+                    #self.output_field.insert(tk.END, "Temperature:"  + str(weather_data['main']['temp']) + " Celcius \n")
+                else:
+                    self.output_field.insert(tk.END, 'Data can not be parsed....\n')
         except:
                 self.output_field.insert(tk.END, "Could not establish connection....\n")
                 
