@@ -57,7 +57,7 @@ class MyApp(object):
         # self.output_field.config(state=tk.DISABLED)
   
         # output data button
-        self.output_data_button = ttk.Button(self.frame03, text='Output Data', padding=10, width=25)
+        self.output_data_button = ttk.Button(self.frame03, text='Output Data', padding=10, width=25, command=self.outputData)
         self.output_data_button.grid(row=0, column=0)
   
           # reset button
@@ -97,11 +97,11 @@ class MyApp(object):
     def parseData(self):
         try:
             if self.response.status_code == 200:
-                weather_data = self.response.json()
+                self.weather_data = self.response.json()
                 # Extract the data
                 
-                if 'main' in weather_data:
-                    self.temp = weather_data['main']['temp']
+                if 'main' in self.weather_data:
+                    self.temp = self.weather_data['main']['temp']
                     self.output_field.insert(tk.END, 'Data has been parsed succesfully...\n')
                     print("Data")
                     #self.output_field.insert(tk.END, "Temperature:"  + str(weather_data['main']['temp']) + " Celcius \n")
@@ -109,7 +109,13 @@ class MyApp(object):
                     self.output_field.insert(tk.END, 'Data can not be parsed....\n')
         except:
                 self.output_field.insert(tk.END, "Could not establish connection....\n")
-                
+    
+    def  outputData(self):
+        if self.response.status_code == 200 and 'main' in self.weather_data:
+            self.output_field.insert(tk.END, 'Temperature:{0} Celcius.\n'.format(self.temp))
+        else:
+            self.output_field.insert(tk.END, 'No temperature data.....\n')
+                        
     def ignore_keypress(self, event):
         # Ignore keypress events
         return "break"
