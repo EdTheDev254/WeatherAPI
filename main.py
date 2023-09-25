@@ -1,4 +1,5 @@
 ### Weather Application Programming Interface ###
+## GUI without functionality
 
 import tkinter as tk
 from tkinter import ttk
