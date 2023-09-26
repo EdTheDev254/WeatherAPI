@@ -12,6 +12,7 @@ class MyApp(object):
         self.root.minsize(500, 250)
         self.root.maxsize(500, 250)
 
+        self.entryCheck = False
         # Create a style object
         #style = ttk.Style()
         # Set the font for the ttk buttons
@@ -87,12 +88,16 @@ class MyApp(object):
             self.entry_field.delete(0, tk.END)
             if self.response.status_code != 200:
                 self.output_field.insert(tk.END, "No data for such location, please counter check...\n" )
+                self.entryCheck = False
+                
             elif self.response.status_code == 200:
                 self.entry_field.delete(0, tk.END)
-                self.output_field.insert(tk.END, 'Data has been collected Succesfully...\nParse the data please.\n')
+                self.output_field.insert(tk.END, 'Data has been collected Succesfully...\nPlease Parse the data.\n')
+                self.entryCheck = True
                 
         else:
             self.output_field.insert(tk.END, 'Could not fetch data, check input\n')
+            
    
     def parseData(self):
         try:
@@ -100,22 +105,27 @@ class MyApp(object):
                 self.weather_data = self.response.json()
                 # Extract the data
                 
-                if 'main' in self.weather_data:
+                if 'main' in self.weather_data and self.entryCheck:
                     self.temp = self.weather_data['main']['temp']
-                    self.output_field.insert(tk.END, 'Data has been parsed succesfully...\n')
-                    print("Data")
-                    #self.output_field.insert(tk.END, "Temperature:"  + str(weather_data['main']['temp']) + " Celcius \n")
-                else:
+                    self.output_field.insert(tk.END, 'Data has been parsed succesfully.Press Output\n')
+                    self.entryCheck = False
+                    
+                elif not self.entryCheck:
                     self.output_field.insert(tk.END, 'Data can not be parsed....\n')
+            else:
+                self.output_field.insert(tk.END, 'Error Parsing data....\n')
         except:
                 self.output_field.insert(tk.END, "Could not establish connection....\n")
     
+    
     def  outputData(self):
-        if self.response.status_code == 200 and 'main' in self.weather_data:
-            self.output_field.insert(tk.END, 'Temperature:{0} Celcius.\n'.format(self.temp))
-        else:
-            self.output_field.insert(tk.END, 'No temperature data.....\n')
-                        
+        try:
+            if self.response.status_code == 200 and 'main' in self.weather_data:
+                self.output_field.insert(tk.END, 'Temperature:{0} Celcius.\n'.format(self.temp))
+            elif not self.entryCheck:
+                self.output_field.insert(tk.END, 'No temperature data.....\n')
+        except:
+            self.output_field.insert(tk.END, 'No data collected/parsed\n')                    
     def ignore_keypress(self, event):
         # Ignore keypress events
         return "break"
