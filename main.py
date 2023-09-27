@@ -83,21 +83,24 @@ class MyApp(object):
             'appid': apiKey,
             'units': 'metric'
            }
-        if self.entry_field.get() != '':
-            self.response = requests.get(base_url, params=parameters)
-            self.entry_field.delete(0, tk.END)
-            if self.response.status_code != 200:
-                self.output_field.insert(tk.END, "No data for such location, please counter check...\n" )
-                self.entryCheck = False
-                
-            elif self.response.status_code == 200:
+        
+        try:
+            if self.entry_field.get() != '':
+                self.response = requests.get(base_url, params=parameters)
                 self.entry_field.delete(0, tk.END)
-                self.output_field.insert(tk.END, 'Data has been collected Succesfully...\nPlease Parse the data.\n')
-                self.entryCheck = True
-                
-        else:
-            self.output_field.insert(tk.END, 'Could not fetch data, check input\n')
-            
+                if self.response.status_code != 200:
+                    self.output_field.insert(tk.END, "No data for such location, please counter check...\n" )
+                    self.entryCheck = False
+                    
+                elif self.response.status_code == 200:
+                    self.entry_field.delete(0, tk.END)
+                    self.output_field.insert(tk.END, 'Data has been collected Succesfully...\nPlease Parse the data.\n')
+                    self.entryCheck = True
+                    
+            else:
+                self.output_field.insert(tk.END, 'Could not fetch data, check input\n')
+        except:
+            self.output_field.insert(tk.END, 'No connection established........\n')
    
     def parseData(self):
         try:
