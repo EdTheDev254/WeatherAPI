@@ -4,14 +4,15 @@ from tkinter import ttk
 from tkinter import font as tkFont
 import requests
 
+
 class MyApp(object):
-    
+
     def __init__(self, arg):
         self.root = root
         self.root.title("Weather API")
         self.root.minsize(500, 250)
         self.root.maxsize(500, 250)
-
+        self.noTempData = False
         self.entryCheck = False
         # Create a style object
         #style = ttk.Style()
@@ -67,10 +68,7 @@ class MyApp(object):
 
         ###################################################
         # functionality 
-  
-    def resetCommand(self):
-        self.entry_field.delete(0, tk.END)
-        self.output_field.delete('1.0', tk.END)
+        
         # Test code
   
     def fetchData(self):
@@ -112,7 +110,8 @@ class MyApp(object):
                     self.temp = self.weather_data['main']['temp']
                     self.output_field.insert(tk.END, 'Data has been parsed succesfully.Press Output\n')
                     self.entryCheck = False
-                    
+                    self.noTempData = True
+
                 elif not self.entryCheck:
                     self.output_field.insert(tk.END, 'Data can not be parsed....\n')
             else:
@@ -120,23 +119,27 @@ class MyApp(object):
         except:
                 self.output_field.insert(tk.END, "Could not establish connection....\n")
     
-    
     def  outputData(self):
         try:
-            if self.response.status_code == 200 and 'main' in self.weather_data:
+            if self.response.status_code == 200 and 'main' in self.weather_data and self.noTempData:
                 self.output_field.insert(tk.END, 'Temperature:{0} Celcius.\n'.format(self.temp))
-            elif not self.entryCheck:
+                self.noTempData = False
+                
+            elif not self.entryCheck or not self.noTempData:
                 self.output_field.insert(tk.END, 'No temperature data.....\n')
         except:
             self.output_field.insert(tk.END, 'No data collected/parsed\n')                    
     def ignore_keypress(self, event):
         # Ignore keypress events
         return "break"
+  
+    def resetCommand(self):
+        self.entry_field.delete(0, tk.END)
+        self.output_field.delete('1.0', tk.END)
+        self.noTempData = False
+        
     
- 
 if __name__ == '__main__':
     root = tk.Tk()
     app = MyApp(root)
     root.mainloop()
-
-
