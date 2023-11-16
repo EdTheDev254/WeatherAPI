@@ -110,8 +110,11 @@ class MyApp(object):
                     self.temp = self.weather_data['main']['temp']
                     self.humidity = self.weather_data['main']['humidity']
                     self.visibleDistance = self.weather_data['visibility']
+                    self.windSpeed = self.weather_data['wind']['speed']
+                    self.speedKMH = round(float(self.windSpeed) * 3.6, 1)
+                    self.windDirection = self.weather_data['wind']['deg']
                     
-                    self.output_field.insert(tk.END, 'Data has been parsed succesfully.Press Output\n')
+                    self.output_field.insert(tk.END, 'Data has been parsed succesfully.Press Output\n\n')
                     self.entryCheck = False
                     self.noTempData = True
 
@@ -128,6 +131,7 @@ class MyApp(object):
                 self.output_field.insert(tk.END, 'Temperature:{0} Celcius.\n'.format(self.temp))
                 self.output_field.insert(tk.END, 'Humidity:{0}\n'.format(self.humidity))
                 self.output_field.insert(tk.END, 'Visibility Distance:{0}\n'.format(self.visibleDistance))
+                self.output_field.insert(tk.END, 'Wind Speed:{0}m/s({1}km/h), {2}Deg\n'.format(self.windSpeed, self.speedKMH, self.windDirection))
                 
                 self.noTempData = False
                 
