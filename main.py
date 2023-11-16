@@ -130,7 +130,7 @@ class MyApp(object):
             if self.response.status_code == 200 and 'main' in self.weather_data and self.noTempData:
                 self.output_field.insert(tk.END, 'Temperature:{0} Celcius.\n'.format(self.temp))
                 self.output_field.insert(tk.END, 'Humidity:{0}\n'.format(self.humidity))
-                self.output_field.insert(tk.END, 'Visibility Distance:{0}\n'.format(self.visibleDistance))
+                self.output_field.insert(tk.END, 'Visibility Distance:{0:,}\n'.format(self.visibleDistance))
                 self.output_field.insert(tk.END, 'Wind Speed:{0}m/s({1}km/h), {2}Deg\n'.format(self.windSpeed, self.speedKMH, self.windDirection))
                 
                 self.noTempData = False
