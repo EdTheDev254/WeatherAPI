@@ -108,6 +108,9 @@ class MyApp(object):
                 
                 if 'main' in self.weather_data and self.entryCheck:
                     self.temp = self.weather_data['main']['temp']
+                    self.humidity = self.weather_data['main']['humidity']
+                    self.visibleDistance = self.weather_data['visibility']
+                    
                     self.output_field.insert(tk.END, 'Data has been parsed succesfully.Press Output\n')
                     self.entryCheck = False
                     self.noTempData = True
@@ -123,6 +126,9 @@ class MyApp(object):
         try:
             if self.response.status_code == 200 and 'main' in self.weather_data and self.noTempData:
                 self.output_field.insert(tk.END, 'Temperature:{0} Celcius.\n'.format(self.temp))
+                self.output_field.insert(tk.END, 'Humidity:{0}\n'.format(self.humidity))
+                self.output_field.insert(tk.END, 'Visibility Distance:{0}\n'.format(self.visibleDistance))
+                
                 self.noTempData = False
                 
             elif not self.entryCheck or not self.noTempData:
